@@ -1,0 +1,26 @@
+/* Arha не распространяется с прототипом: файлы и лицензия не предоставлены.
+   После получения веб-лицензии и WOFF2 разместите файлы в public/fonts,
+   раскомментируйте @font-face и добавьте 'Arha' первым в --font-sans.
+
+@font-face {
+  font-family: 'Arha';
+  src: url('../../public/fonts/Arha-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Arha';
+  src: url('../../public/fonts/Arha-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Arha';
+  src: url('../../public/fonts/Arha-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+*/

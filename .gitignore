@@ -1,0 +1,46 @@
+node_modules/
+dist/
+tmp/
+*.tsbuildinfo
+.pnpm-store/
+
+# Local credentials and environment files
+.env
+.env.*
+.npmrc
+.netrc
+.git-credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa*
+id_ed25519*
+credentials*.json
+service-account*.json
+.aws/
+.agents/
+.codex/
+.openai/
+.netlify/
+.vercel/
+.cache/
+
+# Source documents, research, unused photos and backup archives stay local
+/Информация_на_сайт/
+/Фотобаза_Сибириус/
+*.pdf
+*.zip
+*.rar
+*.7z
+
+# Editor and operating system files
+.idea/
+.vscode/
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,53 @@
+# Происхождение ресурсов
+
+Фирменная графика и фотографии взяты из двух предоставленных PDF в корне проекта.
+Сторонние стоковые и сгенерированные изображения не используются.
+
+| Ресурс | Документ | Страница |
+| --- | --- | --- |
+| `images/sibirius-logo.webp`, `public/favicon.png` | «Брендбук Сибириус 2026 (1)» | 1 |
+| `images/pattern-*.webp` | «Брендбук Сибириус 2026 (1)» | 17 |
+| `images/technopark.webp` | «Пут_Уч_3_2025» | 2 |
+| `images/olymp.webp` | «Пут_Уч_3_2025» | 4 |
+| `images/panorama.webp` | «Пут_Уч_3_2025» | 5 |
+| `images/goodfood.webp` | «Пут_Уч_3_2025» | 6 |
+| `images/travelers.webp` | «Пут_Уч_3_2025» | 7 |
+
+Логотип и паттерны — прямые фрагменты рендера исходного брендбука, без перерисовки.
+Фотографии извлечены из встроенных изображений PDF и оптимизированы в WebP.
+Фирменная палитра интерфейса задана точными HEX-значениями в `styles/global.css`.
+Фотографии не означают подтверждения текущего состояния объектов.
+
+Файлы Arha и веб-лицензия не предоставлены. Из PDF шрифт не извлекался.
+
+## Иконки транспортных приложений
+
+Оригинальные PNG 128 × 128 скачаны без перерисовки с CDN Google Play
+`play-lh.googleusercontent.com` из поля «Изображение значка» официальных
+карточек приложений. Проверены 30.10.2026. Используются локально, без внешних
+запросов при просмотре сайта. Права на значки принадлежат их владельцам.
+
+| Локальный файл | Официальная карточка — источник иконки | Проверенная карточка App Store |
+| --- | --- | --- |
+| `apps/smart-transport.png` | [Умный транспорт](https://play.google.com/store/apps/details?id=ru.bus62.SmartTransport&hl=ru) | [Умный транспорт](https://apps.apple.com/ru/app/умный-транспорт/id966468854) |
+| `apps/yandex-maps.png` | [Яндекс Карты](https://play.google.com/store/apps/details?id=ru.yandex.yandexmaps&hl=ru) | [Яндекс Карты](https://apps.apple.com/ru/app/яндекс-карты-и-навигатор/id313877526) |
+| `apps/yandex-go.png` | [Яндекс Go](https://play.google.com/store/apps/details?id=ru.yandex.taxi&hl=ru) | [Яндекс Go](https://apps.apple.com/ru/app/яндекс-go-такси-еда-доставка/id472650686) |
+| `apps/avtoliga.png` | [АвтоЛига](https://play.google.com/store/apps/details?id=ru.x_cab&hl=ru) | [АвтоЛига](https://apps.apple.com/ru/app/автолига-совместные-поездки/id945384208) |
+| `apps/drivee.png` | [Drivee](https://play.google.com/store/apps/details?id=com.drivee.taxi.rides&hl=ru) | [Drivee](https://apps.apple.com/ru/app/drivee-такси-доставка/id6447953294) |
+
+## Координаты площадок и маршруты
+
+Адреса и названия заданы по согласованному списку организатора.
+Координаты новых домов сверены по Яндекс Картам 30.10.2026; координаты
+Технопарка сохранены из проекта. Порядок — широта, долгота:
+
+- [Промышленная, 19](https://yandex.com/maps/57/khanty-mansiysk/house/YkEYfw5kSUUOQFhrfXxxcHhhZg==/): `61.001422, 68.994009` (сохранены из проекта).
+- [Мира, 124](https://yandex.com/maps/57/khanty-mansiysk/house/YkAYdg9mS0YHQFhrfXxweH1kbA==/): `61.019178, 69.086230`.
+- [Анны Коньковой, 5](https://yandex.com/maps/57/khanty-mansiysk/house/ulitsa_anny_konkovoy_5/YkAYdgZlTkEOQFhqfXV3eXRnYA==/): `60.968844, 69.015749`.
+
+Карточка лицея в Картах на момент проверки указывает Мира, 151. Для ссылки
+Яндекс Go используются координаты согласованного дома **Мира, 124**.
+Кнопки автобуса передают полный адрес в `rtext`, тип маршрута `rtt=mt`.
+Ссылки Яндекс Go передают `end-lat` / `end-lon` по
+[официальной документации](https://yandex.ru/support/taxi-distr/ru/api/deeplinks)
+и сохраняют существующий переход на сайт при отсутствии приложения.
