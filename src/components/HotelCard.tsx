@@ -4,7 +4,7 @@ import { shortPrice } from '../data/guide';
 
 export default function HotelCard({ hotel }: { hotel: Hotel }) {
   return <article className="place-card" aria-labelledby={`${hotel.id}-title`}>
-        {hotel.photos?.length ? <div className="place-photo"><img src={hotel.photos[0].src} alt={hotel.photos[0].alt} loading="lazy" width="960" height="640" /></div> : null}
+        {hotel.photos?.length ? <div className="place-photo hotel-photo"><img src={hotel.photos[0].src} alt={hotel.photos[0].alt} loading="lazy" decoding="async" width="960" height="640" /></div> : null}
         <div className="place-content">
           <div className="place-title"><h2 id={`${hotel.id}-title`}>{hotel.name}{hotel.stars && <span className="hotel-stars" aria-label={`Категория: ${hotel.stars} звезды`}>{'★'.repeat(hotel.stars)}</span>}</h2></div>
           <div className="place-detail address-detail"><MapPin size={18} aria-hidden="true" /><span>{hotel.address}</span></div>

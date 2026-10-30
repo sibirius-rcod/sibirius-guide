@@ -1,3 +1,8 @@
+import yugra from '../assets/images/hotel-yugra.webp';
+import olympic from '../assets/images/hotel-olympic.webp';
+import sovetnik from '../assets/images/hotel-sovetnik.webp';
+import taray from '../assets/images/hotel-taray.webp';
+
 export interface HotelPhoto { src: string; alt: string; }
 export type HotelSort = 'distance' | 'price';
 
@@ -13,7 +18,7 @@ export interface Hotel {
   id: string; name: string; address: string; price: string;
   time: string; distance: string; description: string;
   route: string; booking: string; stars?: number;
-  // Подготовлено для будущей галереи из 3–5 фотографий.
+  // Карточка показывает только первую фотографию, если она предоставлена.
   photos?: readonly HotelPhoto[];
 }
 
@@ -21,6 +26,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-0",
     "name": "Гостиница «Олимпийская»",
+    "photos": [{ src: olympic, alt: 'Здание гостиницы «Олимпийская» на ул. Энгельса, 45' }],
     "stars": 4,
     "address": "Ханты-Мансийск, ул. Энгельса, 45",
     "price": "от 4 400 ₽ за отдельный номер на одну ночь для 1 взрослого",
@@ -33,6 +39,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-1",
     "name": "Гостиница «Тарей»",
+    "photos": [{ src: taray, alt: 'Здание гостиницы «Тарей» на ул. Ленина, 64' }],
     "stars": 4,
     "address": "Ханты-Мансийск, ул. Ленина, 64",
     "price": "от 8 165 ₽ за отдельный номер на одну ночь для 1 взрослого",
@@ -45,6 +52,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-2",
     "name": "Гостиница «СоветникЪ»",
+    "photos": [{ src: sovetnik, alt: 'Здание гостиницы «СоветникЪ» на ул. Рознина, 136' }],
     "stars": 3,
     "address": "Ханты-Мансийск, ул. Рознина, 136",
     "price": "≈6 500–7 500 ₽ за ночь — предварительный ориентир по предложениям сервисов бронирования; тип номера и условия размещения для одного гостя не подтверждены",
@@ -102,6 +110,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-7",
     "name": "Отель «Югра»",
+    "photos": [{ src: yugra, alt: 'Здание отеля «Югра» на ул. Комсомольская, 32' }],
     "stars": 4,
     "address": "Ханты-Мансийск, ул. Комсомольская, 32",
     "price": "от 7 600 ₽ за отдельный номер на одну ночь для 1 взрослого",

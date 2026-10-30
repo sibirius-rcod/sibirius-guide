@@ -193,9 +193,10 @@ try {
         }
         await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: window.nativeClipboard }));
         if (mode !== 'keyboard') for (const selector of ['#home-title', '#technopark-title', '#lyceum-title', '#school-2-title', '.venue-image img', '#transport-apps-title']) {
-          const text = page.locator(selector);
-          await prepare(text);
-          for (const attempt of [1, 2]) await stable(text, `plain-content/${selector}/${attempt}`);
+          for (const [index, text] of (await page.locator(selector).all()).entries()) {
+            await prepare(text);
+            for (const attempt of [1, 2]) await stable(text, `plain-content/${selector}/${index}/${attempt}`);
+          }
         }
       }
       if (hash === '#food') {
