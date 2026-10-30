@@ -8,19 +8,25 @@
     "dev": "vite --configLoader native --host 127.0.0.1",
     "build": "tsc -b && vite build --configLoader native",
     "preview": "vite preview --configLoader native --host 127.0.0.1",
-    "test": "node scripts/check.mjs"
+    "test": "node scripts/check.mjs",
+    "test:ui": "node scripts/check-ui.mjs",
+    "test:scroll": "node scripts/check-scroll.mjs"
   },
   "dependencies": {
+    "lucide-react": "^0.468.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "lucide-react": "^0.468.0"
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.0",
+    "jsdom": "26.1.0",
+    "playwright": "1.62.1",
     "typescript": "~5.9.2",
     "vite": "^7.1.2"
   },
-  "engines": { "node": ">=22.12.0" }
+  "engines": {
+    "node": ">=22.12.0"
+  }
 }

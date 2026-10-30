@@ -34,8 +34,16 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Check source data and routes
         run: pnpm test
+      - name: Check focus and UI regressions
+        run: pnpm test:ui
       - name: Check TypeScript and build
         run: pnpm build
+        env:
+          VITE_BASE_PATH: /sibirius-guide/
+      - name: Install test browser
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Check scroll regressions
+        run: pnpm test:scroll
         env:
           VITE_BASE_PATH: /sibirius-guide/
       - name: Configure Pages

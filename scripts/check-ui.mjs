@@ -25,6 +25,41 @@ await tick(() => root.render(createElement(App)));
 assert.equal(window.location.hash, '#venue');
 assert.ok(document.getElementById('venue') && scrolls.includes('venue'));
 assert.equal(document.querySelectorAll('.transport-app a').length, 10);
+// A focus correction is reserved for a real Tab transition, never pointer or
+// programmatic focus on the full main container, route headings or fixed menu.
+const { createFocusVisibilityHandlers, focusScrollOffset } = load('src/components/focusVisibility.ts');
+assert.equal(focusScrollOffset(750, 760), 2);
+assert.equal(focusScrollOffset(700, 760), 0);
+const focusCalls = [];
+window.scrollBy = options => focusCalls.push(options.top);
+const panel = document.querySelector('.mobile-nav');
+panel.getBoundingClientRect = () => ({ top: 760 });
+const focusTarget = document.querySelector('.venue-copy');
+focusTarget.getBoundingClientRect = () => ({ bottom: 780 });
+const handlers = createFocusVisibilityHandlers();
+handlers.onFocusCapture({ target: focusTarget });
+handlers.onKeyDownCapture({ key: 'Tab' });
+handlers.onPointerDownCapture();
+handlers.onFocusCapture({ target: focusTarget });
+assert.deepEqual(focusCalls, []);
+handlers.onKeyDownCapture({ key: 'Tab' });
+handlers.onFocusCapture({ target: focusTarget });
+assert.deepEqual(focusCalls, [32]);
+handlers.onFocusCapture({ target: focusTarget });
+assert.deepEqual(focusCalls, [32]);
+for (const target of [document.getElementById('main-content'), document.getElementById('home-title'), panel.querySelector('a')]) {
+  handlers.onKeyDownCapture({ key: 'Tab' });
+  handlers.onFocusCapture({ target });
+}
+assert.deepEqual(focusCalls, [32]);
+panel.style.display = 'none';
+handlers.onKeyDownCapture({ key: 'Tab' });
+handlers.onFocusCapture({ target: focusTarget });
+assert.deepEqual(focusCalls, [32]);
+panel.style.display = '';
+delete panel.getBoundingClientRect;
+delete focusTarget.getBoundingClientRect;
+window.scrollBy = () => {};
 for (const [i, card] of [...document.querySelectorAll('.venue-card')].entries()) {
   await tick(() => card.querySelector('button').click());
   assert.equal(copied, destinations[i]);
@@ -104,3 +139,4 @@ assert.equal(document.querySelectorAll('.place-card').length, 3);
 await tick(() => root.unmount());
 console.log('OK: сортировка через select, сувениры с главной, из меню и по прямому якорю.');
 console.log('OK: DOM-переходы, повторные якоря, #transport, меню, 10 ссылок магазинов, копирование всех 3 адресов через Clipboard API и запасной способ, ошибка копирования, отмена отложенного перехода.');
+console.log('OK: коррекция видимости только при Tab, без реакции на pointerdown, повторный или программный фокус main/h1 и фиксированной навигации.');
