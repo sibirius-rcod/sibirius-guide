@@ -5,7 +5,7 @@ import CardPhotos from './CardPhotos';
 
 export default function HotelCard({ hotel }: { hotel: Hotel }) {
   return <article className="place-card" aria-labelledby={`${hotel.id}-title`}>
-        {hotel.photos?.length ? <CardPhotos photos={hotel.photos} name={hotel.name} /> : null}
+        {hotel.photos?.length ? <CardPhotos photos={hotel.photos} name={hotel.name} position="center top" /> : null}
         <div className="place-content">
           <div className="place-title"><h2 id={`${hotel.id}-title`}>{hotel.name}{hotel.stars && <span className="hotel-stars" aria-label={`Категория: ${hotel.stars} звезды`}>{'★'.repeat(hotel.stars)}</span>}</h2></div>
           <div className="place-detail address-detail"><MapPin size={18} aria-hidden="true" /><span>{hotel.address}</span></div>

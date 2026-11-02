@@ -51,10 +51,12 @@ try {
         const img = gallery.locator('img');
         const dimensions = await img.evaluate(node => {
           const box = node.getBoundingClientRect();
-          return { ratio: box.width / box.height, fit: getComputedStyle(node).objectFit, loading: node.loading };
+          return { ratio: box.width / box.height, fit: getComputedStyle(node).objectFit,
+            position: getComputedStyle(node).objectPosition, loading: node.loading };
         });
         assert.ok(Math.abs(dimensions.ratio - 16 / 9) < .01);
         assert.equal(dimensions.fit, 'cover');
+        assert.equal(dimensions.position, section === 'hotels' ? '50% 0%' : '50% 50%');
         assert.equal(dimensions.loading, 'lazy');
         if (!n) continue;
         assert.ok(n >= 2 && n <= 3);

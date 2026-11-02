@@ -8,14 +8,14 @@ export interface CardPhoto {
   position?: string;
 }
 
-export default function CardPhotos({ photos, name }: { photos: readonly CardPhoto[]; name: string }) {
+export default function CardPhotos({ photos, name, position = 'center' }: { photos: readonly CardPhoto[]; name: string; position?: string }) {
   const [index, setIndex] = useState(0);
   const photo = photos[index];
   if (!photo) return null;
 
   return <div className="place-photo card-photos" role="group" aria-label={`Фотографии: ${name}`}>
     <img src={photo.src} alt={photo.alt} width={photo.width ?? 960} height={photo.height ?? 640}
-      style={{ objectPosition: photo.position ?? 'center' }} loading="lazy" decoding="async" />
+      style={{ objectPosition: photo.position ?? position }} loading="lazy" decoding="async" />
     {photos.length > 1 && <>
       <div className="photo-controls" aria-label="Выбор фотографии">
         {photos.map((item, number) => <button key={item.src} type="button"
