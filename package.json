@@ -11,7 +11,8 @@
     "test": "node scripts/check.mjs",
     "test:ui": "node scripts/check-ui.mjs",
     "test:scroll": "node scripts/check-scroll.mjs",
-    "test:photos": "node scripts/check-photos.mjs"
+    "test:photos": "node scripts/check-photos.mjs",
+    "test:layout": "node scripts/check-layout.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

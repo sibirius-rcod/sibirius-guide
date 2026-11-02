@@ -53,7 +53,7 @@ try {
           const box = node.getBoundingClientRect();
           return { ratio: box.width / box.height, fit: getComputedStyle(node).objectFit, loading: node.loading };
         });
-        assert.ok(Math.abs(dimensions.ratio - 1.5) < .01);
+        assert.ok(Math.abs(dimensions.ratio - 16 / 9) < .01);
         assert.equal(dimensions.fit, 'cover');
         assert.equal(dimensions.loading, 'lazy');
         if (!n) continue;

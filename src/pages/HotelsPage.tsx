@@ -2,6 +2,7 @@ import { ArrowLeft, BedDouble } from 'lucide-react';
 import { useState } from 'react';
 import { hotels, sortHotels, type HotelSort } from '../data/hotels';
 import HotelCard from '../components/HotelCard';
+import MasonryGrid from '../components/MasonryGrid';
 
 export default function HotelsPage() {
   const [sort, setSort] = useState<HotelSort>('distance');
@@ -12,7 +13,7 @@ export default function HotelsPage() {
     <section className="food-list" aria-label="Гостиницы города">
       <div className="hotel-sort"><label htmlFor="hotel-sort">Сортировка</label><select id="hotel-sort" value={sort} onChange={event => setSort(event.target.value as HotelSort)}><option value="distance">По расстоянию</option><option value="price">По стоимости</option></select></div>
       <p className="result-count">Все гостиницы<span>{hotels.length.toString().padStart(2, '0')}</span></p>
-      <div className="places-grid">{sorted.map(hotel => <HotelCard key={hotel.id} hotel={hotel} />)}</div>
+      <MasonryGrid>{sorted.map(hotel => <HotelCard key={hotel.id} hotel={hotel} />)}</MasonryGrid>
     </section>
   </>;
 }
