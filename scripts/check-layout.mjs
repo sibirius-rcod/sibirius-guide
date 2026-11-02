@@ -13,13 +13,14 @@ const report = { base, catalogues: [], categories: [], errors: [] };
 const close = (a, b, label) => assert.ok(Math.abs(a - b) <= 1.1, `${label}: ${a} vs ${b}`);
 
 async function checkGrid(page, count) {
-  await page.locator('.places-grid[data-masonry]').waitFor();
+  await page.locator('.places-grid').waitFor();
   // Allow ResizeObserver to run after viewport, text, filtering or sorting changes.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const state = await page.locator('.places-grid').evaluate(grid => {
     const style = getComputedStyle(grid);
     const rect = node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height, bottom: r.bottom }; };
-    return { box: rect(grid), gap: parseFloat(style.getPropertyValue('--catalog-gap')),
+    return { food: grid.classList.contains('food-cards'), masonry: grid.hasAttribute('data-masonry'),
+      box: rect(grid), gap: parseFloat(style.getPropertyValue('--catalog-gap')),
       columns: style.gridTemplateColumns.split(' ').length,
       cards: [...grid.children].map(card => {
         const content = card.querySelector('.place-content');
@@ -36,16 +37,35 @@ async function checkGrid(page, count) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth === innerWidth), true);
   const next = Array(state.columns).fill(state.box.y);
   const columnWidth = (state.box.width - state.gap * (state.columns - 1)) / state.columns;
+  if (state.food) {
+    assert.equal(state.masonry, false, 'Food uses ordinary row grid');
+    let top = state.box.y;
+    for (let start = 0; start < count; start += state.columns) {
+      const row = state.cards.slice(start, start + state.columns);
+      for (const [column, card] of row.entries()) {
+        close(card.x, state.box.x + column * (columnWidth + state.gap), `${card.id}: ordered column`);
+        close(card.y, top, `${card.id}: aligned row top`);
+        close(card.height, row[0].height, `${card.id}: equal row height`);
+        close(card.actions.bottom, row[0].actions.bottom, `${card.id}: aligned route button`);
+      }
+      top += row[0].height + state.gap;
+    }
+    assert.equal(await page.locator('.food-cards .place-photo').count(), count, 'Every card has photo or placeholder');
+  }
   for (const [i, card] of state.cards.entries()) {
     const column = next.indexOf(Math.min(...next));
-    close(card.x, state.box.x + column * (columnWidth + state.gap), `${card.id}: column`);
-    close(card.y, next[column], `${card.id}: no masonry gap`);
+    if (!state.food) {
+      close(card.x, state.box.x + column * (columnWidth + state.gap), `${card.id}: column`);
+      close(card.y, next[column], `${card.id}: no masonry gap`);
+    }
     if (i) assert.ok(card.y >= state.cards[i - 1].y - 1, `${card.id}: visual order`);
     close(card.height, card.content.height + (card.photo?.height || 0) + 2, `${card.id}: natural card height`);
     if (!card.photo) close(card.content.y, card.y + 1, `${card.id}: no empty image space`);
     else assert.ok(Math.abs(card.photo.width / card.photo.height - 16 / 9) < .01, `${card.id}: photo ratio`);
-    assert.equal(card.margin, '0px');
-    close(card.actions.y - card.previous.bottom, card.previousMargin, `${card.id}: actions follow content`);
+    if (!state.food) {
+      assert.equal(card.margin, '0px');
+      close(card.actions.y - card.previous.bottom, card.previousMargin, `${card.id}: actions follow content`);
+    } else assert.ok(card.actions.y - card.previous.bottom >= card.previousMargin - 1, `${card.id}: space before route`);
     close(card.content.bottom - card.actions.bottom, card.padding, `${card.id}: no empty card bottom`);
     next[column] += Math.ceil(card.height) + state.gap;
   }
@@ -115,6 +135,11 @@ try {
     page = await context.newPage();
     page.on('pageerror', error => report.errors.push(error.message));
     await page.goto(`${base}#home`, { waitUntil: 'networkidle' });
+    assert.equal(await page.locator('.hero-kicker').textContent(), 'III Межрегиональный форум «ПРОразвитие»');
+    assert.equal((await page.locator('.hero h1').innerText()).replace(/\s+/g, ' ').replace(/\.$/, ''), 'Путеводитель участника');
+    assert.equal(await page.locator('.hero-description').textContent(), 'Всё необходимое для участия в мероприятии — в одном месте');
+    assert.equal(await page.locator('.hero-content > p').count(), 2);
+    assert.ok(await page.locator('.hero').evaluate(node => parseFloat(getComputedStyle(node.querySelector('h1')).fontSize) > 2.5 * parseFloat(getComputedStyle(node.querySelector('.hero-kicker')).fontSize)));
     const cards = page.locator('.category-card');
     assert.deepEqual(await cards.locator('.category-title').allTextContents(), ['Места проведения', 'Где поесть', 'Проживание', 'Сувениры']);
     assert.deepEqual(await cards.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), ['#venue', '#food', '#hotels', '#souvenirs']);
@@ -162,7 +187,7 @@ try {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
     report.categories.push({ width, hover: hover.length, active: active.length, keyboardFocus: 4, uniform: true });
     await context.close();
-    console.log(`OK layout ${width}px: masonry packing, natural heights, DOM/Tab order, resizing, filtering/sorting; uniform category states.`);
+    console.log(`OK layout ${width}px: equal food rows with 16:9 media; preserved hotel/souvenir layout; DOM/Tab order, resizing, filtering/sorting; hero hierarchy and category states.`);
   }
   assert.deepEqual(report.errors, []);
 } finally {

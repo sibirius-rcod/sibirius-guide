@@ -76,7 +76,8 @@ try {
       assert.ok(html.includes('Цены ориентировочные и могут меняться'));
       assert.equal((html.match(/class="place-photo card-photos"/g) || []).length, 8);
       assert.equal((html.match(/class="photo-controls"/g) || []).length, 3);
-      assert.ok(!html.includes('photo-placeholder'));
+      assert.equal((html.match(/class="place-photo food-photo-placeholder"/g) || []).length, 9);
+      assert.ok(!html.includes('data-masonry'));
       assert.ok(!html.includes('расчётный ориентир') && !html.includes('источники расходятся'));
       assert.ok(!html.includes('Тип заведения'));
     } else {
@@ -130,6 +131,9 @@ try {
   assert.ok(homeHtml.includes('href="#souvenirs"') && !homeHtml.includes('Скоро'));
   assert.equal(eventName, 'III Межрегиональный форум работников сферы дополнительного образования детей „ПРОразвитие“');
   assert.ok(homeHtml.includes(eventName) && homeHtml.includes('Путеводитель') && homeHtml.includes('ПРОразвитие'));
+  assert.ok(homeHtml.includes('III Межрегиональный форум «ПРОразвитие»'));
+  assert.ok(homeHtml.includes('Всё необходимое для участия в мероприятии — в одном месте'));
+  assert.ok(!homeHtml.includes('hero-event') && !homeHtml.includes('hero-art-caption'));
   const Souvenirs = (await vite.ssrLoadModule('/src/pages/SouvenirsPage.tsx')).default;
   const souvenirsHtml = renderToStaticMarkup(createElement(Souvenirs));
   assert.equal((souvenirsHtml.match(/class="place-card"/g) || []).length, 3);

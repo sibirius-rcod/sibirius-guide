@@ -26,6 +26,8 @@ try {
       assert.equal(await cards.count(), count);
       assert.equal(await cards.locator('img').count(), photos);
       if (section === 'food') {
+        assert.equal(await cards.locator('.food-photo-placeholder').count(), 9);
+        assert.equal(await cards.locator('.place-photo').count(), 17);
         const schedules = await cards.locator('.hours').allTextContents();
         assert.equal(schedules.length, 17);
         for (const hours of schedules) assert.match(hours, /^Ежедневно [\d:– ,;птсб]+$/);

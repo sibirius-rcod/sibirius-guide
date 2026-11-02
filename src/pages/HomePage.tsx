@@ -8,12 +8,11 @@ export default function HomePage() {
   return <>
     <section className="hero" aria-labelledby="home-title">
       <div className="hero-content" aria-label={eventName}>
-        <p className="hero-kicker">{forum.heading}</p>
+        <p className="hero-kicker">{forum.heading} «{forum.title}»</p>
         <h1 id="home-title" tabIndex={-1}>Путеводитель<br />участника<span className="title-dot">.</span></h1>
-        <p className="hero-event">{forum.title}</p>
-        <p className="hero-description">Форум {forum.audience}</p>
+        <p className="hero-description">Всё необходимое для участия в мероприятии — в одном месте</p>
       </div>
-      <div className="hero-art" aria-hidden="true"><Pattern /><span className="hero-art-caption">НОВЫЕ МЕСТА. НОВЫЕ ВОЗМОЖНОСТИ.</span></div>
+      <div className="hero-art" aria-hidden="true"><Pattern /></div>
     </section>
     <section className="categories-section" aria-labelledby="categories-title">
       <div className="section-heading"><h2 id="categories-title">Что вас интересует?</h2></div>
