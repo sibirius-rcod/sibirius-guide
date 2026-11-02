@@ -23,6 +23,27 @@ try {
   const { venues } = await vite.ssrLoadModule('/src/data/venues.ts');
   const { eventName } = await vite.ssrLoadModule('/src/config.ts');
   assert.equal(places.length, 17);
+  const schedules = {
+    olymp: '07:00–10:00, 12:00–15:00, 17:00–22:00', panorama: '11:00–23:00',
+    'food-2': '12:00–23:00', 'food-3': '12:00–23:00', 'food-4': '12:00–22:00',
+    'food-5': '12:00–22:00; пт–сб 12:00–00:00', 'food-6': '11:00–23:00; пт–сб 11:00–02:00',
+    'food-7': '12:00–02:00', 'food-8': '11:00–00:00; пт–сб 11:00–01:00',
+    'food-9': '12:00–00:00', 'food-10': '07:30–23:00', travelers: '08:00–23:00',
+    'food-12': '07:30–23:00', goodfood: '09:00–20:00', 'food-14': '08:00–23:00',
+    'food-15': '10:00–22:00', 'food-16': '09:00–01:00',
+  };
+  for (const place of places) assert.deepEqual(place.hours, [`Ежедневно ${schedules[place.id]}`], place.name);
+  assert.ok(findPlaces('Бургер Кинг').some(place => place.id === 'food-16'));
+  for (const item of [...places, ...hotels]) if (item.photos) {
+    assert.ok(item.photos.length >= 1 && item.photos.length <= 3);
+    assert.equal(new Set(item.photos.map(photo => photo.src)).size, item.photos.length);
+    for (const photo of item.photos) {
+      assert.ok(photo.alt.trim());
+      const bytes = readFileSync(photo.src);
+      assert.equal(bytes.subarray(0, 4).toString(), 'RIFF');
+      assert.equal(bytes.subarray(8, 12).toString(), 'WEBP');
+    }
+  }
   assert.equal(hotels.length, 9);
   assert.equal(new Set(places.map(p => p.id)).size, places.length);
   for (const p of places) assert.ok(p.name && p.addresses.length && p.hours.length && p.price && p.description);
@@ -53,7 +74,9 @@ try {
       assert.ok(!html.includes('закрытую на ремонт'));
       assert.ok(html.includes('800–1 300 ₽'));
       assert.ok(html.includes('Цены ориентировочные и могут меняться'));
-      assert.ok(!html.includes('place-photo') && !html.includes('photo-placeholder'));
+      assert.equal((html.match(/class="place-photo card-photos"/g) || []).length, 8);
+      assert.equal((html.match(/class="photo-controls"/g) || []).length, 3);
+      assert.ok(!html.includes('photo-placeholder'));
       assert.ok(!html.includes('расчётный ориентир') && !html.includes('источники расходятся'));
       assert.ok(!html.includes('Тип заведения'));
     } else {

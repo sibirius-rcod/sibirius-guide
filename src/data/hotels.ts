@@ -2,6 +2,11 @@ import yugra from '../assets/images/hotel-yugra.webp';
 import olympic from '../assets/images/hotel-olympic.webp';
 import sovetnik from '../assets/images/hotel-sovetnik.webp';
 import taray from '../assets/images/hotel-taray.webp';
+import misne from '../assets/images/hotel-misne.webp';
+import kristall from '../assets/images/hotel-kristall.webp';
+import greenDream from '../assets/images/hotel-green-dream.webp';
+import sevenHills from '../assets/images/hotel-seven-hills.webp';
+import aviator from '../assets/images/hotel-aviator.webp';
 
 export interface HotelPhoto { src: string; alt: string; }
 export type HotelSort = 'distance' | 'price';
@@ -18,7 +23,7 @@ export interface Hotel {
   id: string; name: string; address: string; price: string;
   time: string; distance: string; description: string;
   route: string; booking: string; stars?: number;
-  // Карточка показывает только первую фотографию, если она предоставлена.
+  // До трёх отобранных фотографий с переключением внутри карточки.
   photos?: readonly HotelPhoto[];
 }
 
@@ -65,6 +70,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-3",
     "name": "Гостиничный комплекс «Миснэ»",
+    "photos": [{ src: misne, alt: 'Фасад гостиничного комплекса «Миснэ» с вывеской и входом' }],
     "address": "Ханты-Мансийск, ул. Гагарина, 54",
     "price": "от 7 500 ₽ за отдельный номер на одну ночь для 1 взрослого",
     "time": "≈9 мин на автомобиле",
@@ -76,6 +82,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-4",
     "name": "Гостиница «Кристалл»",
+    "photos": [{ src: kristall, alt: 'Здание гостиницы «Кристалл» на ул. Красноармейской, 14' }],
     "address": "Ханты-Мансийск, ул. Красноармейская, 14",
     "price": "от 4 700 ₽ за отдельный номер на одну ночь для 1 взрослого",
     "time": "≈11 мин на автомобиле",
@@ -87,6 +94,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-5",
     "name": "Гостевой дом «Континенталь Green Dream»",
+    "photos": [{ src: greenDream, alt: 'Здание гостевого дома «Континенталь Green Dream» с главным входом' }],
     "address": "Ханты-Мансийск, ул. Энтузиастов, 14",
     "price": "от 4 500 ₽ за отдельный номер на одну ночь для 1 взрослого",
     "time": "≈9 мин на автомобиле",
@@ -98,6 +106,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-6",
     "name": "Гостиничный комплекс «На семи холмах»",
+    "photos": [{ src: sevenHills, alt: 'Фасад гостиничного комплекса «На семи холмах»' }],
     "stars": 2,
     "address": "Ханты-Мансийск, ул. Спортивная, 24/9",
     "price": "от 3 200 ₽ за отдельный номер на одну ночь для 1 взрослого",
@@ -123,6 +132,7 @@ export const hotels: Hotel[] = [
   {
     "id": "hotel-8",
     "name": "Отель «Авиатор»",
+    "photos": [{ src: aviator, alt: 'Вход в отель «Авиатор» с синей крышей и вывеской' }],
     "stars": 2,
     "address": "Ханты-Мансийск, ул. Мира, 130",
     "price": "от 3 200 ₽ за отдельный номер на одну ночь для 1 взрослого",

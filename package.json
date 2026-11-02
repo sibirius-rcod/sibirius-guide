@@ -10,7 +10,8 @@
     "preview": "vite preview --configLoader native --host 127.0.0.1",
     "test": "node scripts/check.mjs",
     "test:ui": "node scripts/check-ui.mjs",
-    "test:scroll": "node scripts/check-scroll.mjs"
+    "test:scroll": "node scripts/check-scroll.mjs",
+    "test:photos": "node scripts/check-photos.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

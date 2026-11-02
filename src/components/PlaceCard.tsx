@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { MapPin, Clock3, Navigation, ArrowUpRight } from 'lucide-react';
 import type { Place } from '../data/places';
 import { routeUrl, shortPrice } from '../data/guide';
+import CardPhotos from './CardPhotos';
 
 export default function PlaceCard({ place, query = '' }: { place: Place; query?: string }) {
   const [branch, setBranch] = useState(() => place.addresses.find(address => query.trim() && address.toLocaleLowerCase('ru').includes(query.trim().toLocaleLowerCase('ru'))) || place.addresses[0]);
   return <article className="place-card" aria-labelledby={`${place.id}-title`}>
+    {place.photos?.length ? <CardPhotos photos={place.photos} name={place.name} /> : place.image ? <CardPhotos photos={[{ src: place.image, alt: `Интерьер: ${place.name}` }]} name={place.name} /> : null}
     <div className="place-content">
       <div className="place-title"><h2 id={`${place.id}-title`}>{place.name}</h2></div>
       <div className="place-detail address-detail"><MapPin size={18} aria-hidden="true" />
